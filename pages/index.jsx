@@ -4,7 +4,7 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import axios from 'axios';
 
-export default function Home(props) {
+export default function Home({result}) {
   const [data, setData] = useState(""); 
   const [good, setGood] = useState(false)
 
@@ -37,7 +37,7 @@ export default function Home(props) {
         <input type="submit" value="send"/>
         </form>
         <ul>
-        {props.data.map(item => {
+        {result.map(item => {
           return(
           <>
           <li><input type="checkbox" checked={item.properties.Good.checkbox} />{item.properties.Name.title[0].plain_text}</li>
@@ -50,10 +50,10 @@ export default function Home(props) {
   )
 }
 
-export async function getServerSideProps(ctx){
+Home.getInitialProps =async (ctx) =>{
   const res = await fetch('http://localhost:3000/api')
   const json = await res.json();
   return{
-    props : {data: json.results}
+    result: json.results
   }
 }
