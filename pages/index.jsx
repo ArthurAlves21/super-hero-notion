@@ -5,6 +5,13 @@ import axios from 'axios';
 export default function Home({result}) {
   const [data, setData] = useState(""); 
   const [good, setGood] = useState(false)
+  const [content, setContent] = useState([])
+
+  useEffect(async () => {
+    const res = await fetch('http://localhost:3000/api')
+    const json = await res.json();
+    setContent(json)
+  }, [])
 
   function handleSubmit(e){
     e.preventDefault();
@@ -35,23 +42,15 @@ export default function Home({result}) {
         <input type="submit" value="send"/>
         </form>
         <ul>
-        {/* {result.map(item => {
+        {content.results.map(item => {
           return(
           <>
           <li><input type="checkbox" checked={item.properties.Good.checkbox} />{item.properties.Name.title[0].plain_text}</li>
           </>
           )
-        })} */}
+        })}
         </ul>
       </main>
     </div>
   )
 }
-
-// Home.getInitialProps =async (ctx) =>{
-//   const res = await fetch('http://localhost:3000/api')
-//   const json = await res.json();
-//   return{
-//     result: json.results
-//   }
-// }
