@@ -35,23 +35,23 @@ export default function Home({result}) {
         <input type="submit" value="send"/>
         </form>
         <ul>
-        {result.map(item => {
+        {/* {result.map(item => {
           return(
           <>
           <li><input type="checkbox" checked={item.properties.Good.checkbox} />{item.properties.Name.title[0].plain_text}</li>
           </>
           )
-        })}
+        })} */}
         </ul>
       </main>
     </div>
   )
 }
 
-Home.getInitialProps =async (ctx) =>{
-  const res = await fetch('http://localhost:3000/api')
-  const json = await res.json();
-  return{
-    result: json.results
-  }
-}
+// Home.getInitialProps =async (ctx) =>{
+//   const res = await fetch('http://localhost:3000/api')
+//   const json = await res.json();
+//   return{
+//     result: json.results
+//   }
+// }
