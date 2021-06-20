@@ -1,17 +1,12 @@
 import React, {useEffect, useState} from 'react';
+import Head from 'next/head'
+import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import axios from 'axios';
 
-export default function Home({result}) {
+export default function Home({results}) {
   const [data, setData] = useState(""); 
   const [good, setGood] = useState(false)
-  const [content, setContent] = useState([])
-
-  useEffect(async () => {
-    const res = await fetch('http://localhost:3000/api')
-    const json = await res.json();
-    setContent(json)
-  }, [])
 
   function handleSubmit(e){
     e.preventDefault();
@@ -42,7 +37,7 @@ export default function Home({result}) {
         <input type="submit" value="send"/>
         </form>
         <ul>
-        {content.results.map(item => {
+        {results.map(item => {
           return(
           <>
           <li><input type="checkbox" checked={item.properties.Good.checkbox} />{item.properties.Name.title[0].plain_text}</li>
@@ -53,4 +48,12 @@ export default function Home({result}) {
       </main>
     </div>
   )
+}
+
+Home.getInitialProps = async (ctx) =>{
+  const res = await fetch('https://super-hero-notion.vercel.app/api')
+  const json = await res.json();
+  return{
+    results: json.results
+  }
 }
