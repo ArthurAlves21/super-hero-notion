@@ -3,8 +3,9 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import axios from 'axios';
+import Router from 'next/router'
 
-export default function Home({results}) {
+export default function Home(props) {
   const [data, setData] = useState(""); 
   const [good, setGood] = useState(false)
 
@@ -15,11 +16,13 @@ export default function Home({results}) {
       checkbox: good
     }).then((response) => {
       console.log(response)
-      window.location.reload();
+      Router.reload(window.location.pathname)
     }).catch((e) => {
       console.log(e)
     })
   }
+
+  console.log(props.results);
   
   function handleCheck(){
    console.log(good)
@@ -37,7 +40,7 @@ export default function Home({results}) {
         <input type="submit" value="send"/>
         </form>
         <ul>
-        {results.map(item => {
+         {props.results.map(item => {
           return(
           <>
           <li><input type="checkbox" checked={item.properties.Good.checkbox} />{item.properties.Name.title[0].plain_text}</li>
@@ -50,10 +53,10 @@ export default function Home({results}) {
   )
 }
 
-Home.getInitialProps = async (ctx) =>{
+export async function getServerSideProps(ctx){
   const res = await fetch('https://super-hero-notion.vercel.app/api')
   const json = await res.json();
   return{
-    results: json.results
+    props: { results: json.results}
   }
 }

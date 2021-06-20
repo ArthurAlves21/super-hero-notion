@@ -15,7 +15,7 @@ export default async(req, res) => {
     },
     properties: {
       Name: {title: [{ text: { content: req.body.text }}]},
-      Good: {checkbox: true},
+      Good: {checkbox: req.body.checkbox},
     },
   })
   res.status(200).json(data)
